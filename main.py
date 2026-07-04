@@ -16,7 +16,7 @@ from pynput import mouse, keyboard
 try:
     import pyautogui
     PYAUTOGUI_AVAILABLE = True
-except ImportError:
+except (ImportError, SystemExit):
     PYAUTOGUI_AVAILABLE = False
 
 try:

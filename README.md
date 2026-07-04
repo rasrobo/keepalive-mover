@@ -21,9 +21,13 @@ A lightweight Ubuntu Linux CLI tool that prevents Discord (and any other app mon
 
 ### 1. Install system dependencies
 
+Install `xdotool` for synthetic mouse fallback and `python3-dev` to compile Python modules (like `evdev` used by `pynput`):
+
 ```bash
-sudo apt update && sudo apt install -y xdotool
+sudo apt update && sudo apt install -y python3-dev xdotool
 ```
+
+*(Optional)* You can also install `python3-tk` if you want PyAutoGUI to work natively. If `python3-tk` (tkinter) is missing, `keepalive-mover` will automatically detect the import failure and gracefully fall back to X11-level mouse movement using `xdotool`.
 
 ### 2. Install Python dependencies
 
@@ -80,6 +84,14 @@ journalctl --user -u keepalive-mover -f
 ```
 
 The service file uses your user's Python environment. If using a virtual environment, update the `ExecStart` path accordingly.
+
+### Persist across reboots and logouts (Lingering)
+
+By default, systemd user services run only while the user has an active login session. To allow the service to start automatically on system boot and continue running in the background after you log out:
+
+```bash
+loginctl enable-linger $USER
+```
 
 ## Permissions Notes
 
